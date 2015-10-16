@@ -146,7 +146,7 @@ public class MainActivityFragment extends Fragment {
             try {
                 Uri builtUri = Uri.parse("http://api.themoviedb.org/3/discover/movie?").buildUpon()
                         .appendQueryParameter("sort_by", searchType)
-                        .appendQueryParameter("api_key", "c631978e6772cab470065dcf852b62d0").build();
+                        .appendQueryParameter("api_key", "").build();
                 String myUrl = builtUri.toString();
                 // Construct the URL for the OpenWeatherMap query
                 // Possible parameters are avaiable at OWM's forecast API page, at
