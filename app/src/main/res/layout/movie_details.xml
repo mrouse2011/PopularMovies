@@ -16,12 +16,14 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/textViewTitle"
-        android:text="ZZZZZ ZZZZZ ZZZZZ ZZZZZ ZZZZZ ZZZZZ ZZZZZ "
+        android:text=" "
         android:height="92dp"
         android:textSize="36dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/textViewReleaseDate"
+        android:layout_alignEnd="@+id/textViewReleaseDate" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -67,5 +69,27 @@
         android:layout_alignParentBottom="true"
         android:layout_alignRight="@+id/textViewUserRating"
         android:layout_alignEnd="@+id/textViewUserRating" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Set as favourite"
+        android:id="@+id/textViewFav"
+        android:layout_toRightOf="@+id/imageViewThumbnail"
+        android:layout_above="@+id/textViewOverview"
+        android:layout_below="@+id/textViewUserRating" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageViewFav"
+        android:layout_below="@+id/textViewUserRating"
+        android:layout_toRightOf="@+id/textViewFav"
+        android:layout_alignBottom="@+id/textViewFav"
+        android:layout_alignRight="@+id/textViewUserRating"
+        android:layout_alignEnd="@+id/textViewUserRating"
+        android:src="@drawable/favourites"
+        android:visibility="invisible" />
 
 </RelativeLayout>

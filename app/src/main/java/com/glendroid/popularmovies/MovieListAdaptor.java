@@ -2,7 +2,8 @@ package com.glendroid.popularmovies;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.FragmentActivity;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,12 +21,12 @@ public class MovieListAdaptor extends BaseAdapter {
 
     private List<Movie> movies;
     private Context context;
-    private FragmentActivity fragmentActivity;
+    private Fragment fragment;
 
-    public MovieListAdaptor(List movies, Context c, FragmentActivity activity) {
+    public MovieListAdaptor(List movies, Context c, Fragment fragment) {
         this.movies = movies;
         this.context = c;
-        this.fragmentActivity = activity;
+        this.fragment = fragment;
     }
 
     @Override
@@ -46,31 +47,32 @@ public class MovieListAdaptor extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView = inflater.inflate(R.layout.list_item_movie, null);
-        if (position%2==0 && position<movies.size()-1) {
+        View rowView = inflater.inflate(R.layout.grid_item_movie, null);
 
-            ImageView img1 = (ImageView) rowView.findViewById(R.id.imageView1);
-            img1.setTag(R.string.a_tag, movies.get(position));
-            img1.setOnClickListener(new MyOnClickListener());
-            Picasso.with(context).load("http://image.tmdb.org/t/p/w185" + (movies.get(position)).getMoviePosterPath()).into(img1);
+        ImageView img1 = (ImageView) rowView.findViewById(R.id.gridImageView);
+        img1.setTag(R.string.a_tag, movies.get(position));
+        img1.setOnClickListener(new MyOnClickListener());
+        Picasso.with(context).load("http://image.tmdb.org/t/p/w185" + (movies.get(position)).getMoviePosterPath()).into(img1);
 
-            ImageView img2 = (ImageView) rowView.findViewById(R.id.imageView2);
-            img2.setTag(R.string.a_tag, movies.get(position + 1));
-            img2.setOnClickListener(new MyOnClickListener());
-            Picasso.with(context).load("http://image.tmdb.org/t/p/w185" + (movies.get(position + 1)).getMoviePosterPath()).into(img2);
-
-            return rowView;
-
-        } else {
-
-            return new View(context);
-        }
+        return rowView;
     }
 
     void showDetail(Movie movie) {
-        Intent myIntent = new Intent(fragmentActivity, MovieDetail.class);
-        myIntent.putExtra("movie", movie); //Optional parameters
-        fragmentActivity.startActivity(myIntent);
+        if (context.getResources().getBoolean(R.bool.isTablet)) {
+            // It's a tablet, so update the detail fragment
+            Bundle arguments = new Bundle();
+            // Pass the selected Golfcourse object to the DetailFragment
+            arguments.putSerializable("movie", movie);
+            MovieDetailFragment movieDetailFragment = new MovieDetailFragment();
+            movieDetailFragment.setArguments(arguments);
+            this.fragment.getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_detail, movieDetailFragment, "Detail")
+                    .commit();
+        } else {
+            Intent myIntent = new Intent(this.fragment.getActivity(), MovieDetailActivity.class);
+            myIntent.putExtra("movie", movie); //Optional parameters
+            fragment.getActivity().startActivity(myIntent);
+        }
     }
 
     class MyOnClickListener implements View.OnClickListener {

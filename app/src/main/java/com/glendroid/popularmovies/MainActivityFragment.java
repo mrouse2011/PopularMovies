@@ -11,7 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
+import android.widget.GridView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,6 +24,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -31,7 +32,7 @@ import java.util.ArrayList;
 public class MainActivityFragment extends Fragment {
 
     MovieListAdaptor adapter;
-    ListView listView;
+    GridView gridView;
 
     String JSONstring;
     ArrayList<Movie> movies = new ArrayList<>();
@@ -62,6 +63,19 @@ public class MainActivityFragment extends Fragment {
             fetch.execute("rating");
             return true;
         }
+        if(id==R.id.action_favourites) {
+            gridView = (GridView)this.rootView.findViewById(R.id.gridView);
+            if (getContext().getResources().getBoolean(R.bool.isTablet)) {
+                gridView.setNumColumns(3);
+            } else {
+                gridView.setNumColumns(2);
+            }
+            List<Movie> faves = MainActivity.dbAdaptor.getAllMovies();
+            adapter = new MovieListAdaptor(faves, getContext(), this);
+            adapter.notifyDataSetChanged();
+            gridView.setAdapter(adapter);
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -70,6 +84,7 @@ public class MainActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
         this.rootView = inflater.inflate(R.layout.fragment_main, container, false);
         setHasOptionsMenu(true);
+
         return this.rootView;
     }
 
@@ -90,9 +105,16 @@ public class MainActivityFragment extends Fragment {
             e.printStackTrace();
         }
 
-        listView = (ListView)this.rootView.findViewById(R.id.listView);
-        adapter = new MovieListAdaptor(movies, getContext(), getActivity());
-        listView.setAdapter(adapter);
+        gridView = (GridView)this.rootView.findViewById(R.id.gridView);
+        //setnumcols for gridview
+        if (getContext().getResources().getBoolean(R.bool.isTablet)) {
+            gridView.setNumColumns(3);
+        } else {
+            gridView.setNumColumns(2);
+        }
+        Log.i("MOVIES", Integer.toString(movies.size()));
+        adapter = new MovieListAdaptor(movies, getContext(), this);
+        gridView.setAdapter(adapter);
     }
 
     @Override
@@ -124,7 +146,7 @@ public class MainActivityFragment extends Fragment {
             try {
                 Uri builtUri = Uri.parse("http://api.themoviedb.org/3/discover/movie?").buildUpon()
                         .appendQueryParameter("sort_by", searchType)
-                        .appendQueryParameter("api_key", "").build();
+                        .appendQueryParameter("api_key", "c631978e6772cab470065dcf852b62d0").build();
                 String myUrl = builtUri.toString();
                 // Construct the URL for the OpenWeatherMap query
                 // Possible parameters are avaiable at OWM's forecast API page, at

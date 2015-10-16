@@ -4,4 +4,6 @@
         app:showAsAction="never" />
     <item android:id="@+id/action_rating" android:title="@string/highest_rated"
         app:showAsAction="never" />
+    <item android:id="@+id/action_favourites" android:title="@string/favourites"
+        app:showAsAction="never" />
 </menu>
