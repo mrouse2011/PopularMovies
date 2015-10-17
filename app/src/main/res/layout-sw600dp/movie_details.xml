@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:id="@+id/imageViewThumbnail"
+        android:layout_below="@+id/textViewTitle"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/textViewTitle"
+        android:text=" "
+        android:height="92dp"
+        android:textSize="36dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/imageViewFav"
+        android:layout_alignEnd="@+id/imageViewFav" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/textViewUserRating"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/textViewReleaseDate"
+        android:layout_toRightOf="@+id/imageViewThumbnail"
+        android:layout_toEndOf="@+id/imageViewThumbnail" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/textViewReleaseDate"
+        android:layout_alignRight="@+id/textViewUserRating"
+        android:layout_alignEnd="@+id/textViewUserRating"
+        android:layout_toEndOf="@+id/imageViewThumbnail"
+        android:layout_alignTop="@+id/imageViewThumbnail"
+        android:layout_toRightOf="@+id/imageViewThumbnail" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:id="@+id/textViewOverview"
+        android:layout_below="@+id/imageViewThumbnail"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:height="148dp" />
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView"
+        android:layout_below="@+id/textViewOverview"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/textViewUserRating"
+        android:layout_alignEnd="@+id/textViewUserRating" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Set as favourite"
+        android:id="@+id/textViewFav"
+        android:layout_toRightOf="@+id/imageViewThumbnail"
+        android:layout_above="@+id/textViewOverview"
+        android:layout_below="@+id/textViewUserRating" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageViewFav"
+        android:layout_below="@+id/textViewUserRating"
+        android:layout_toRightOf="@+id/textViewFav"
+        android:layout_alignBottom="@+id/textViewFav"
+        android:layout_alignRight="@+id/textViewUserRating"
+        android:layout_alignEnd="@+id/textViewUserRating"
+        android:src="@drawable/favourites"
+        android:visibility="invisible" />
+
+</RelativeLayout>
