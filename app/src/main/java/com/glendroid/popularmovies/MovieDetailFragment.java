@@ -77,11 +77,11 @@ public class MovieDetailFragment extends Fragment {
                 public void onClick(View v) {
                     ImageView imageViewFav = (ImageView) rootView.findViewById(R.id.imageViewFav);
                     imageViewFav.setVisibility(View.VISIBLE);
-                    MainActivity.dbAdaptor.addMovie(movie);
+                    MainActivity.dbOperations.addMovie(movie);
                 }
             });
 
-            for (Movie m : MainActivity.dbAdaptor.getAllMovies()) {
+            for (Movie m : MainActivity.dbOperations.getAllMovies()) {
                 if (m.getMovieId().equals(movie.getMovieId())) {
                     ImageView imageViewFav = (ImageView) rootView.findViewById(R.id.imageViewFav);
                     imageViewFav.setVisibility(View.VISIBLE);

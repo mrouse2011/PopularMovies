@@ -7,27 +7,27 @@ import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static DbAdaptor dbAdaptor;
+    public static DbOperations dbOperations;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dbAdaptor = new DbAdaptor(this);
-        dbAdaptor.open();
-//        dbAdaptor.dropDb();
+        dbOperations = new DbOperations(this);
+        dbOperations.open();
+//        dbOperations.dropDb();
         setContentView(R.layout.activity_main);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        //dbAdaptor.open();
+        //dbOperations.open();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        //dbAdaptor.close();
+        //dbOperations.close();
     }
 
     @Override

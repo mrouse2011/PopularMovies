@@ -47,21 +47,26 @@ public class MovieListAdaptor extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView = inflater.inflate(R.layout.grid_item_movie, null);
 
-        ImageView img1 = (ImageView) rowView.findViewById(R.id.gridImageView);
-        img1.setTag(R.string.a_tag, movies.get(position));
-        img1.setOnClickListener(new MyOnClickListener());
-        Picasso.with(context).load("http://image.tmdb.org/t/p/w185" + (movies.get(position)).getMoviePosterPath()).into(img1);
+        ImageView imageView = null;
 
-        return rowView;
+        if (convertView==null) {
+            convertView = inflater.inflate(R.layout.grid_item_movie, null);
+        }
+
+        if (movies.get(position) != null) {
+            imageView = (ImageView) convertView.findViewById(R.id.gridImageView);
+            imageView.setTag(R.string.a_tag, movies.get(position));
+            imageView.setOnClickListener(new MyOnClickListener());
+            Picasso.with(context).load("http://image.tmdb.org/t/p/w185" + (movies.get(position)).getMoviePosterPath()).into(imageView);
+        }
+
+        return convertView;
     }
 
     void showDetail(Movie movie) {
         if (context.getResources().getBoolean(R.bool.isTablet)) {
-            // It's a tablet, so update the detail fragment
             Bundle arguments = new Bundle();
-            // Pass the selected Golfcourse object to the DetailFragment
             arguments.putSerializable("movie", movie);
             MovieDetailFragment movieDetailFragment = new MovieDetailFragment();
             movieDetailFragment.setArguments(arguments);

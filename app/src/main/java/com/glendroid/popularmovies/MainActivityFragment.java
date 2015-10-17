@@ -70,7 +70,7 @@ public class MainActivityFragment extends Fragment {
             } else {
                 gridView.setNumColumns(2);
             }
-            List<Movie> faves = MainActivity.dbAdaptor.getAllMovies();
+            List<Movie> faves = MainActivity.dbOperations.getAllMovies();
             adapter = new MovieListAdaptor(faves, getContext(), this);
             adapter.notifyDataSetChanged();
             gridView.setAdapter(adapter);
@@ -112,7 +112,6 @@ public class MainActivityFragment extends Fragment {
         } else {
             gridView.setNumColumns(2);
         }
-        Log.i("MOVIES", Integer.toString(movies.size()));
         adapter = new MovieListAdaptor(movies, getContext(), this);
         gridView.setAdapter(adapter);
     }
@@ -146,7 +145,7 @@ public class MainActivityFragment extends Fragment {
             try {
                 Uri builtUri = Uri.parse("http://api.themoviedb.org/3/discover/movie?").buildUpon()
                         .appendQueryParameter("sort_by", searchType)
-                        .appendQueryParameter("api_key", "").build();
+                        .appendQueryParameter("api_key", "c631978e6772cab470065dcf852b62d0").build();
                 String myUrl = builtUri.toString();
                 // Construct the URL for the OpenWeatherMap query
                 // Possible parameters are avaiable at OWM's forecast API page, at

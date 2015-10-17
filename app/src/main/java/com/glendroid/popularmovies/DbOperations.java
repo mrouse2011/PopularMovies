@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by marlonrouse on 16/10/15.
  */
-public class DbAdaptor {
+public class DbOperations {
 
     // Database fields
     private DbWrapper dbHelper;
@@ -20,7 +20,7 @@ public class DbAdaptor {
         DbWrapper.VOTE_AVERAGE, DbWrapper.RELEASE_DATE};
     private SQLiteDatabase db;
 
-    public DbAdaptor(Context context) {
+    public DbOperations(Context context) {
         dbHelper = new DbWrapper(context);
     }
 
