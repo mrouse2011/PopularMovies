@@ -13,7 +13,7 @@
 
         <fragment
             android:id="@+id/fragment_main"
-            class="com.glendroid.popularmovies.MainActivityFragment"
+            android:name="com.glendroid.popularmovies.MainActivityFragment"
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />
 
@@ -26,12 +26,7 @@
         android:layout_gravity="left"
         android:layout_weight="3">
 
-        <fragment
-            android:id="@+id/fragment_detail"
-            class="com.glendroid.popularmovies.MovieDetailFragment"
-            android:layout_width="wrap_content"
-            android:layout_gravity="left"
-            android:layout_height="match_parent" />
+
 
     </FrameLayout>
 

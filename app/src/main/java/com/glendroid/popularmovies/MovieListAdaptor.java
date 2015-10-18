@@ -3,7 +3,7 @@ package com.glendroid.popularmovies;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,9 +71,10 @@ public class MovieListAdaptor extends BaseAdapter {
             MovieDetailFragment movieDetailFragment = new MovieDetailFragment();
             movieDetailFragment.setContext(this.context);
             movieDetailFragment.setArguments(arguments);
-            this.fragment.getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_detail, movieDetailFragment, "Detail")
+            this.fragment.getActivity().getFragmentManager().beginTransaction()
+                    .replace(R.id.movie_detail_container, movieDetailFragment, "Detail")
                     .commit();
+
         } else {
             Intent myIntent = new Intent(this.fragment.getActivity(), MovieDetailActivity.class);
             myIntent.putExtra("movie", movie); //Optional parameters

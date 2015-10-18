@@ -1,6 +1,8 @@
 package com.glendroid.popularmovies;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
@@ -21,9 +23,17 @@ public class MovieDetailActivity extends AppCompatActivity{
         movieDetailFragment.setContext(getApplicationContext());
         movieDetailFragment.setArguments(arguments);
         setContentView(R.layout.activity_detail);
-        getSupportFragmentManager().beginTransaction()
+        getFragmentManager().beginTransaction()
                 .replace(R.id.fragment_detail2, movieDetailFragment, "Detail")
                 .commit();
 
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (getApplicationContext().getResources().getBoolean(R.bool.isTablet)==false) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
     }
 }

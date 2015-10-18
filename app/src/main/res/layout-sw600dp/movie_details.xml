@@ -78,7 +78,8 @@
         android:id="@+id/textViewFav"
         android:layout_toRightOf="@+id/imageViewThumbnail"
         android:layout_above="@+id/textViewOverview"
-        android:layout_below="@+id/textViewUserRating" />
+        android:layout_below="@+id/textViewUserRating"
+        android:visibility="invisible" />
 
     <ImageView
         android:layout_width="wrap_content"

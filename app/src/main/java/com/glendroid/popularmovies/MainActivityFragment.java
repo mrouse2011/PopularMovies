@@ -3,7 +3,7 @@ package com.glendroid.popularmovies;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -65,13 +65,13 @@ public class MainActivityFragment extends Fragment {
         }
         if(id==R.id.action_favourites) {
             gridView = (GridView)this.rootView.findViewById(R.id.gridView);
-            if (getContext().getResources().getBoolean(R.bool.isTablet)) {
+            if (getActivity().getApplicationContext().getResources().getBoolean(R.bool.isTablet)) {
                 gridView.setNumColumns(3);
             } else {
                 gridView.setNumColumns(2);
             }
             List<Movie> faves = MainActivity.dbOperations.getAllMovies();
-            adapter = new MovieListAdaptor(faves, getContext(), this);
+            adapter = new MovieListAdaptor(faves, getActivity().getApplicationContext(), this);
             adapter.notifyDataSetChanged();
             gridView.setAdapter(adapter);
             return true;
@@ -107,18 +107,26 @@ public class MainActivityFragment extends Fragment {
 
         gridView = (GridView)this.rootView.findViewById(R.id.gridView);
         //setnumcols for gridview
-        if (getContext().getResources().getBoolean(R.bool.isTablet)) {
+        if (getActivity().getApplicationContext().getResources().getBoolean(R.bool.isTablet)) {
             gridView.setNumColumns(3);
         } else {
             gridView.setNumColumns(2);
         }
-        adapter = new MovieListAdaptor(movies, getContext(), this);
+        adapter = new MovieListAdaptor(movies, getActivity().getApplicationContext(), this);
         gridView.setAdapter(adapter);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        FetchPopularMoviesTask fetch = new FetchPopularMoviesTask();
+        fetch.setFragment(this);
+        fetch.execute("popularity");
     }
 
     private class FetchPopularMoviesTask extends AsyncTask<String, Void, String> {
@@ -145,7 +153,7 @@ public class MainActivityFragment extends Fragment {
             try {
                 Uri builtUri = Uri.parse("http://api.themoviedb.org/3/discover/movie?").buildUpon()
                         .appendQueryParameter("sort_by", searchType)
-                        .appendQueryParameter("api_key", "").build();
+                        .appendQueryParameter("api_key", "c631978e6772cab470065dcf852b62d0").build();
                 String myUrl = builtUri.toString();
                 // Construct the URL for the OpenWeatherMap query
                 // Possible parameters are avaiable at OWM's forecast API page, at
@@ -203,8 +211,8 @@ public class MainActivityFragment extends Fragment {
 
         @Override
         protected void onPostExecute(String s) {
-            Log.d("RESULT", s);
-            f.setJSONstring(s);
+            if (s!=null)
+                f.setJSONstring(s);
         }
     }
 }

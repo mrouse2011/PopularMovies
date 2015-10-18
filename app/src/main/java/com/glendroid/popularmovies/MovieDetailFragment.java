@@ -6,7 +6,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -39,6 +39,8 @@ public class MovieDetailFragment extends Fragment {
 
     String name;
     LinearLayout linearLayout;
+    View rootView;
+    Movie movie;
 
     Context context;
 
@@ -46,14 +48,10 @@ public class MovieDetailFragment extends Fragment {
         this.context = context;
     }
 
-    View rootView;
-
-    Movie movie;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setRetainInstance(true);
         // If intent arguments have a course object, get it
         if (getArguments() != null && getArguments().containsKey("movie")) {
             movie = (Movie)getArguments().getSerializable("movie");
@@ -63,10 +61,11 @@ public class MovieDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         this.rootView = inflater.inflate(R.layout.movie_details, container, false);
 
         if (movie!=null) {
+            TextView textViewFav = (TextView) rootView.findViewById(R.id.textViewFav);
+            textViewFav.setVisibility(TextView.VISIBLE);
             TextView textViewTitle = (TextView) rootView.findViewById(R.id.textViewTitle);
             textViewTitle.setText(movie.getOriginalTitle());
             TextView textViewOverview = (TextView) rootView.findViewById(R.id.textViewOverview);
@@ -172,7 +171,7 @@ public class MovieDetailFragment extends Fragment {
 
             try {
                 Uri builtUri = Uri.parse("http://api.themoviedb.org/3/movie/"+movieId+"/videos").buildUpon()
-                        .appendQueryParameter("api_key", "").build();
+                        .appendQueryParameter("api_key", "c631978e6772cab470065dcf852b62d0").build();
                 String myUrl = builtUri.toString();
                 URL url = new URL(myUrl);
                 urlConnection = (HttpURLConnection) url.openConnection();
@@ -264,7 +263,7 @@ public class MovieDetailFragment extends Fragment {
 
             try {
                 Uri builtUri = Uri.parse("http://api.themoviedb.org/3/movie/"+movieId+"/reviews").buildUpon()
-                        .appendQueryParameter("api_key", "").build();
+                        .appendQueryParameter("api_key", "c631978e6772cab470065dcf852b62d0").build();
                 String myUrl = builtUri.toString();
                 URL url = new URL(myUrl);
                 urlConnection = (HttpURLConnection) url.openConnection();
