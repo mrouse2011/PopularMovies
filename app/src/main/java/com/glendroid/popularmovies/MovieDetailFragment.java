@@ -1,5 +1,6 @@
 package com.glendroid.popularmovies;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -39,6 +40,12 @@ public class MovieDetailFragment extends Fragment {
     String name;
     LinearLayout linearLayout;
 
+    Context context;
+
+    public void setContext(Context context) {
+        this.context = context;
+    }
+
     View rootView;
 
     Movie movie;
@@ -69,7 +76,7 @@ public class MovieDetailFragment extends Fragment {
             TextView textViewReleaseDate = (TextView) rootView.findViewById(R.id.textViewReleaseDate);
             textViewReleaseDate.setText(movie.getReleaseDate());
             ImageView imageViewThumbnail = (ImageView) rootView.findViewById(R.id.imageViewThumbnail);
-            Picasso.with(getContext()).load("http://image.tmdb.org/t/p/w185" + movie.getMoviePosterPath()).into(imageViewThumbnail);
+            Picasso.with(context).load("http://image.tmdb.org/t/p/w185" + movie.getMoviePosterPath()).into(imageViewThumbnail);
 
             TextView setAsFav = (TextView) rootView.findViewById(R.id.textViewFav);
             setAsFav.setOnClickListener(new View.OnClickListener() {
@@ -99,16 +106,16 @@ public class MovieDetailFragment extends Fragment {
 
     void setTrailers(final List<Trailer> trailers) {
         ScrollView scrollView = (ScrollView)rootView.findViewById(R.id.scrollView);
-        linearLayout = new LinearLayout(getContext());
+        linearLayout = new LinearLayout(context);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         scrollView.addView(linearLayout);
-        TextView trailerHeading = new TextView(getContext());
+        TextView trailerHeading = new TextView(context);
         trailerHeading.setText("Trailers:");
         trailerHeading.setTextColor(Color.parseColor("#000000"));
         linearLayout.addView(trailerHeading);
         for (int i=0; i<trailers.size(); i++) {
             final Trailer trailer = trailers.get(i);
-            TextView trailerTextView = new TextView(getContext());
+            TextView trailerTextView = new TextView(context);
             trailerTextView.setText(trailer.getTrailerName());
             trailerTextView.setTextColor(Color.parseColor("#888888"));
             trailerTextView.setOnClickListener(new View.OnClickListener() {
@@ -122,19 +129,19 @@ public class MovieDetailFragment extends Fragment {
     }
 
     void setReviews(final List<Review> reviews) {
-        TextView reviewHeading = new TextView(getContext());
+        TextView reviewHeading = new TextView(context);
         reviewHeading.setText("Reviews:");
         reviewHeading.setTextColor(Color.parseColor("#000000"));
         linearLayout.addView(reviewHeading);
         for (int i=0; i<reviews.size(); i++) {
             final Review review = reviews.get(i);
-            TextView reviewTextView = new TextView(getContext());
+            TextView reviewTextView = new TextView(context);
             reviewTextView.setText(review.getAuthor() + " - " + review.getContent().substring(0, 22) + "...");
             reviewTextView.setTextColor(Color.parseColor("#888888"));
             reviewTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+                    AlertDialog.Builder alert = new AlertDialog.Builder(context);
                     alert.setTitle(review.getAuthor());
                     alert.setMessage(review.getContent());
                     alert.setPositiveButton("OK",null);
@@ -165,7 +172,7 @@ public class MovieDetailFragment extends Fragment {
 
             try {
                 Uri builtUri = Uri.parse("http://api.themoviedb.org/3/movie/"+movieId+"/videos").buildUpon()
-                        .appendQueryParameter("api_key", "").build();
+                        .appendQueryParameter("api_key", "c631978e6772cab470065dcf852b62d0").build();
                 String myUrl = builtUri.toString();
                 URL url = new URL(myUrl);
                 urlConnection = (HttpURLConnection) url.openConnection();
@@ -257,7 +264,7 @@ public class MovieDetailFragment extends Fragment {
 
             try {
                 Uri builtUri = Uri.parse("http://api.themoviedb.org/3/movie/"+movieId+"/reviews").buildUpon()
-                        .appendQueryParameter("api_key", "").build();
+                        .appendQueryParameter("api_key", "c631978e6772cab470065dcf852b62d0").build();
                 String myUrl = builtUri.toString();
                 URL url = new URL(myUrl);
                 urlConnection = (HttpURLConnection) url.openConnection();

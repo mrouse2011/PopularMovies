@@ -18,6 +18,7 @@ public class MovieDetailActivity extends AppCompatActivity{
         // Pass the selected Golfcourse object to the DetailFragment
         arguments.putSerializable("movie", movie);
         MovieDetailFragment movieDetailFragment = new MovieDetailFragment();
+        movieDetailFragment.setContext(getApplicationContext());
         movieDetailFragment.setArguments(arguments);
         setContentView(R.layout.activity_detail);
         getSupportFragmentManager().beginTransaction()

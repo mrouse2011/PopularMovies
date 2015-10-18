@@ -69,6 +69,7 @@ public class MovieListAdaptor extends BaseAdapter {
             Bundle arguments = new Bundle();
             arguments.putSerializable("movie", movie);
             MovieDetailFragment movieDetailFragment = new MovieDetailFragment();
+            movieDetailFragment.setContext(this.context);
             movieDetailFragment.setArguments(arguments);
             this.fragment.getActivity().getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_detail, movieDetailFragment, "Detail")
