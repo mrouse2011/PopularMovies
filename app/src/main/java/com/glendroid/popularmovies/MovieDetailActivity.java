@@ -1,15 +1,15 @@
 package com.glendroid.popularmovies;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
 /**
  * Created by marlonrouse on 16/10/15.
  */
-public class MovieDetailActivity extends AppCompatActivity{
+public class MovieDetailActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

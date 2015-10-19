@@ -7,7 +7,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.support.v7.app.AlertDialog;
+import android.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -135,12 +135,17 @@ public class MovieDetailFragment extends Fragment {
         for (int i=0; i<reviews.size(); i++) {
             final Review review = reviews.get(i);
             TextView reviewTextView = new TextView(context);
-            reviewTextView.setText(review.getAuthor() + " - " + review.getContent().substring(0, 22) + "...");
+            String theContent = "";
+            if (review.getContent().length()<22)
+                theContent=review.getContent();
+            else
+                theContent=review.getContent().substring(0, 22);
+            reviewTextView.setText(review.getAuthor() + " - " + theContent + "...");
             reviewTextView.setTextColor(Color.parseColor("#888888"));
             reviewTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                    AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
                     alert.setTitle(review.getAuthor());
                     alert.setMessage(review.getContent());
                     alert.setPositiveButton("OK",null);
@@ -171,7 +176,7 @@ public class MovieDetailFragment extends Fragment {
 
             try {
                 Uri builtUri = Uri.parse("http://api.themoviedb.org/3/movie/"+movieId+"/videos").buildUpon()
-                        .appendQueryParameter("api_key", "").build();
+                        .appendQueryParameter("api_key", "c631978e6772cab470065dcf852b62d0").build();
                 String myUrl = builtUri.toString();
                 URL url = new URL(myUrl);
                 urlConnection = (HttpURLConnection) url.openConnection();
@@ -263,7 +268,7 @@ public class MovieDetailFragment extends Fragment {
 
             try {
                 Uri builtUri = Uri.parse("http://api.themoviedb.org/3/movie/"+movieId+"/reviews").buildUpon()
-                        .appendQueryParameter("api_key", "").build();
+                        .appendQueryParameter("api_key", "c631978e6772cab470065dcf852b62d0").build();
                 String myUrl = builtUri.toString();
                 URL url = new URL(myUrl);
                 urlConnection = (HttpURLConnection) url.openConnection();

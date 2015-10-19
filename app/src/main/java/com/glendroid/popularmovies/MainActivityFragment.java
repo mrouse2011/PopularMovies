@@ -33,13 +33,25 @@ public class MainActivityFragment extends Fragment {
 
     MovieListAdaptor adapter;
     GridView gridView;
-
     String JSONstring;
     ArrayList<Movie> movies = new ArrayList<>();
-
     View rootView;
 
+    String searchType;
+    class SearchType {
+        public static final String POPULARITY = "popularity.desc";
+        public static final String RATING = "vote_average.desc";
+        public static final String FAVES = "faves";
+    }
+
     public MainActivityFragment() {
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+
     }
 
     @Override
@@ -54,13 +66,13 @@ public class MainActivityFragment extends Fragment {
         if(id==R.id.action_popularity) {
             FetchPopularMoviesTask fetch = new FetchPopularMoviesTask();
             fetch.setFragment(this);
-            fetch.execute("popularity");
+            fetch.execute(SearchType.POPULARITY);
             return true;
         }
         if(id==R.id.action_rating) {
             FetchPopularMoviesTask fetch = new FetchPopularMoviesTask();
             fetch.setFragment(this);
-            fetch.execute("rating");
+            fetch.execute(SearchType.RATING);
             return true;
         }
         if(id==R.id.action_favourites) {
@@ -72,8 +84,8 @@ public class MainActivityFragment extends Fragment {
             }
             List<Movie> faves = MainActivity.dbOperations.getAllMovies();
             adapter = new MovieListAdaptor(faves, getActivity().getApplicationContext(), this);
-            adapter.notifyDataSetChanged();
             gridView.setAdapter(adapter);
+            searchType = SearchType.FAVES;
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -106,7 +118,7 @@ public class MainActivityFragment extends Fragment {
         }
 
         gridView = (GridView)this.rootView.findViewById(R.id.gridView);
-        //setnumcols for gridview
+
         if (getActivity().getApplicationContext().getResources().getBoolean(R.bool.isTablet)) {
             gridView.setNumColumns(3);
         } else {
@@ -117,16 +129,21 @@ public class MainActivityFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public void onStart() {
         super.onStart();
         FetchPopularMoviesTask fetch = new FetchPopularMoviesTask();
         fetch.setFragment(this);
-        fetch.execute("popularity");
+        if (this.searchType==null || this.searchType.equals(SearchType.POPULARITY)) {
+            fetch.execute(SearchType.POPULARITY);
+        } else if (this.searchType.equals(SearchType.RATING)) {
+            fetch.execute(SearchType.RATING);
+        } else if (this.searchType.equals(SearchType.FAVES)) {
+            List<Movie> faves = MainActivity.dbOperations.getAllMovies();
+            adapter = new MovieListAdaptor(faves, getActivity().getApplicationContext(), this);
+            gridView.setAdapter(adapter);
+        } else {
+            Log.e("ERROR", "Invalid SearchType");
+        }
     }
 
     private class FetchPopularMoviesTask extends AsyncTask<String, Void, String> {
@@ -143,55 +160,41 @@ public class MainActivityFragment extends Fragment {
             HttpURLConnection urlConnection = null;
             BufferedReader reader = null;
 
-            String searchType = "popularity.desc";
-            if (params[0].equals("popularity")) {
-                searchType = "popularity.desc";
+            if (params[0].equals(SearchType.POPULARITY)) {
+                searchType = SearchType.POPULARITY;
             } else {
-                searchType = "vote_average.desc";
+                searchType = SearchType.RATING;
             }
 
             try {
                 Uri builtUri = Uri.parse("http://api.themoviedb.org/3/discover/movie?").buildUpon()
                         .appendQueryParameter("sort_by", searchType)
-                        .appendQueryParameter("api_key", "").build();
+                        .appendQueryParameter("api_key", "c631978e6772cab470065dcf852b62d0").build();
                 String myUrl = builtUri.toString();
-                // Construct the URL for the OpenWeatherMap query
-                // Possible parameters are avaiable at OWM's forecast API page, at
-                // http://openweathermap.org/API#forecast
                 URL url = new URL(myUrl);
-
-                // Create the request to OpenWeatherMap, and open the connection
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("GET");
                 urlConnection.connect();
 
-                // Read the input stream into a String
                 InputStream inputStream = urlConnection.getInputStream();
 
                 if (inputStream == null) {
-                    // Nothing to do.
                     return null;
                 }
                 reader = new BufferedReader(new InputStreamReader(inputStream));
 
                 String line;
                 while ((line = reader.readLine()) != null) {
-                    // Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
-                    // But it does make debugging a *lot* easier if you print out the completed
-                    // buffer for debugging.
                     buffer.append(line + "\n");
                 }
 
                 if (buffer.length() == 0) {
-                    // Stream was empty.  No point in parsing.
                     return null;
                 }
 
             } catch (IOException e) {
-                Log.e("PlaceholderFragment", "Error ", e);
+                Log.e("MainActivityFragment", "Error ", e);
                 e.printStackTrace();
-                // If the code didn't successfully get the weather data, there's no point in attemping
-                // to parse it.
                 return null;
             } finally{
                 if (urlConnection != null) {
@@ -201,7 +204,7 @@ public class MainActivityFragment extends Fragment {
                     try {
                         reader.close();
                     } catch (final IOException e) {
-                        Log.e("PlaceholderFragment", "Error closing stream", e);
+                        Log.e("MainActivityFragment", "Error closing stream", e);
                     }
                 }
             }
