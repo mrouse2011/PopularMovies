@@ -169,7 +169,7 @@ public class MainActivityFragment extends Fragment {
             try {
                 Uri builtUri = Uri.parse("http://api.themoviedb.org/3/discover/movie?").buildUpon()
                         .appendQueryParameter("sort_by", searchType)
-                        .appendQueryParameter("api_key", "").build();
+                        .appendQueryParameter("api_key", Constants.API_KEY).build();
                 String myUrl = builtUri.toString();
                 URL url = new URL(myUrl);
                 urlConnection = (HttpURLConnection) url.openConnection();
