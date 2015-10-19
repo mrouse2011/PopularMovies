@@ -5,5 +5,5 @@ package com.glendroid.popularmovies;
  */
 public class Constants {
 
-    public static final String API_KEY = "c631978e6772cab470065dcf852b62d0";
+    public static final String API_KEY = "";
 }
