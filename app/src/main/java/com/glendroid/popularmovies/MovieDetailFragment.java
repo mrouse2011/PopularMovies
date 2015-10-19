@@ -176,7 +176,7 @@ public class MovieDetailFragment extends Fragment {
 
             try {
                 Uri builtUri = Uri.parse("http://api.themoviedb.org/3/movie/"+movieId+"/videos").buildUpon()
-                        .appendQueryParameter("api_key", "c631978e6772cab470065dcf852b62d0").build();
+                        .appendQueryParameter("api_key", "").build();
                 String myUrl = builtUri.toString();
                 URL url = new URL(myUrl);
                 urlConnection = (HttpURLConnection) url.openConnection();
@@ -268,7 +268,7 @@ public class MovieDetailFragment extends Fragment {
 
             try {
                 Uri builtUri = Uri.parse("http://api.themoviedb.org/3/movie/"+movieId+"/reviews").buildUpon()
-                        .appendQueryParameter("api_key", "c631978e6772cab470065dcf852b62d0").build();
+                        .appendQueryParameter("api_key", "").build();
                 String myUrl = builtUri.toString();
                 URL url = new URL(myUrl);
                 urlConnection = (HttpURLConnection) url.openConnection();
